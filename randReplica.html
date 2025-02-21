@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+   <head></head>
+   <body>
+      <h1>Number Guessing Game</h1>
+      <p>This Game is something I'm trying to recreate after seeing MDN's interface</p>
+
+      <div class = "form">
+        <label for = "guessField">Enter a guess</label>
+        <input type="number" class = "guessField" min = "1" max = "100">
+        <input type="submit" class = "guessSubmit">
+      </div>
+
+      <div class="resultParas">
+        <p class="guesses"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+      </div>
+
+      <style>
+      body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+p {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.form {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+input {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+.guessField {
+    width: 50px;
+    text-align: center;
+}
+
+.guessSubmit {
+    background: #ff758c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.guessSubmit:hover {
+    background: #ff5775;
+}
+
+.resultParas {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.lowOrHi {
+    color: red;
+    font-size: 1.5em;
+}
+
+.lastResult {
+    color: green;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+      </style>
+
+      <script>
+        const numberGen = Math.floor(Math.random()*100)+1;
+        console.log(numberGen);
+        const submitGuess = document.querySelector(".guessSubmit");
+        const guessMade = document.querySelector(".guessField");
+        const prevGuesses = document.querySelector(".guesses");
+        const displayResult = document.querySelector(".lastResult");
+        let counter = 0;
+        const estimate = document.querySelector(".lowOrHi");
+
+        submitGuess.addEventListener("click", checkGuess);
+
+        function checkGuess(){
+            counter++;
+            if(counter == 1){
+                prevGuesses.textContent = "You Guessed: ";
+            }
+            prevGuesses.textContent = prevGuesses.textContent + " "+ guessMade.value;
+            if(counter == 10){
+                if(guessMade.value == numberGen){
+                  displayResult.textContent = "YOU WON OMG";
+                }
+                else{
+                  displayResult.textContent = "GAME OVER!!"
+                  estimate.textContent = "You lost :("
+                }
+                clearField();
+                endGame();
+                return;
+            }
+            
+            if(guessMade.value == numberGen){
+              displayResult.textContent = "WOW YOU WON!";
+              clearField();
+              endGame();
+              return;
+            }
+
+            if(guessMade.value != numberGen){
+              if(guessMade.value > numberGen){
+                estimate.textContent = "Too goddamn high dude";
+              }
+              else{
+                estimate.textContent = "Too low";
+              }
+              displayResult.textContent = "Wrong answer";
+              clearField();
+            }
+            
+        }
+
+        function endGame(){
+          submitGuess.disabled = true;
+          guessMade.disabled = true;
+        }
+
+        function clearField(){
+          guessMade.value = "";
+        }
+        
+      </script>
+   </body>
+</html>
